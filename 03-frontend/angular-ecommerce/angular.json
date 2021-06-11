@@ -24,6 +24,7 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "src/styles.css"
                         ],
                         "scripts": []
@@ -37,6 +38,7 @@
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
+                            "extractCss": true,
                             "namedChunks": false,
                             "extractLicenses": true,
                             "vendorChunk": false,
@@ -84,9 +86,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.css",
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+                            "src/styles.css"
                         ],
                         "scripts": []
                     }
