@@ -84,4 +84,27 @@ export class CheckoutComponent implements OnInit {
     console.log("The Email address is: "+this.checkoutFormGroup.get('customer').value.email);
 
   }
+
+  handleMonthsAndYears() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+   
+    const currentYear: number = new Date().getFullYear();
+    const selectedYear: number = Number(creditCardFormGroup.value.expirationYear);
+
+    //if the current year equals to the selected year , then the start with the current month
+
+    let startMonth: number;
+
+    if (currentYear === selectedYear) {
+      startMonth = new Date().getMonth() + 1;
+    } else {
+      startMonth = 1;
+    }
+    this.shopFormService.getCreditCardMonths(startMonth).subscribe(
+      data => {
+        console.log("retrieved credit card months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+    );
+  }
 }
