@@ -32,7 +32,6 @@ public class Country {
 	@Column(name = "name")
 	private String name;
 	
-	// TODO: Set up one-to-many with states
 	@OneToMany(mappedBy = "country")
 	@JsonIgnore
 	private List<State> states;
