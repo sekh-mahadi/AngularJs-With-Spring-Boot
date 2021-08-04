@@ -121,7 +121,7 @@
                         <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
+                                <select formControlName="state">
                                     <option *ngFor="let state of shippingAddressStates" [ngValue]="state">
                                         {{state.name }}
                                     </option>
@@ -152,12 +152,12 @@
                         </div>
                     </div>
                 </div>
-                <!--Add check box to copy shipping to billing Address-->
+                <!-- Add check box to copy shipping to billing -->
                 <div class="input-space">
-                    <label class="au-chackbox ">
-                        <input type="checkbox" (change)="copyShippingAdressToBillingAddress($event)">
-                        <span class="au-checkmark"></span> Billing Address same as Shipping Address
-                    </label>
+                    <label class="au-checkbox">
+                    <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
+                    <span class="au-checkmark"></span>Billing Address same as Shipping Address
+                </label>
                 </div>
                 <!--Billing Address-->
                 <div formGroupName="billingAddress" class="form-area">
@@ -217,7 +217,7 @@
                         <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
+                                <select formControlName="state">
                                     <option *ngFor="let state of billingAddressStates" [ngValue]="state">
                                         {{state.name }}
                                     </option>
