@@ -31,7 +31,6 @@ export class LoginStatusComponent implements OnInit {
           this.userFullName = res.name;
         }
       );
-
     }
   }
   logout() {

@@ -16,13 +16,16 @@ export class LoginComponent implements OnInit {
     
       this.oktaSignin = new OktaSignIn({
         logo: 'assets/images/logo.jpg',
-        baseUrl: myAppConfig.oidc.issuer.split('/outh2')[0],
+        features: {
+          registration: true
+        },
+        baseUrl: myAppConfig.oidc.issuer.split('/oauth2')[0],
         clientId: myAppConfig.oidc.clientId,
         redirectUri: myAppConfig.oidc.redirectUri,
         authParams: {
           pkce: true,
           issuer: myAppConfig.oidc.issuer,
-          scopes:myAppConfig.oidc.scopes
+          scopes: myAppConfig.oidc.scopes
         }
     });
   }
@@ -32,9 +35,9 @@ export class LoginComponent implements OnInit {
 
     this.oktaSignin.renderEl({
       el: '#okta-sign-in-widget'
-    }, // same as html div tag
-      (respose) => {
-        if (respose.status === 'SUCCESS') {
+    }, // this name should be same as div tag id in login.component.html
+      (response) => {
+        if (response.status === 'SUCCESS') {
           this.oktaAuthService.signInWithRedirect();
         }
       },
