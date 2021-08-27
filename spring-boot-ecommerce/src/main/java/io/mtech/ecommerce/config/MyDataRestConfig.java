@@ -9,20 +9,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.mtech.ecommerce.entity.Country;
 import io.mtech.ecommerce.entity.Product;
 import io.mtech.ecommerce.entity.ProductCategory;
 import io.mtech.ecommerce.entity.State;
 
-
 @Configuration
-public class MyDataRestConfig implements RepositoryRestConfigurer {
+@EnableWebMvc
+public class MyDataRestConfig implements RepositoryRestConfigurer, WebMvcConfigurer {
 
 	private EntityManager entityManager;
 
@@ -46,8 +48,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
 	private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config,
 			HttpMethod[] theUnsupportedActions) {
-		config.getExposureConfiguration()
-		        .forDomainType(theClass)
+		config.getExposureConfiguration().forDomainType(theClass)
 				.withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
 				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 	}
@@ -80,4 +81,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 	 * 
 	 * }
 	 */
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedOrigins("*");
+	}
 }
