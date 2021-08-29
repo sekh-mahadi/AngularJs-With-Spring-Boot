@@ -9,13 +9,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.mtech.ecommerce.entity.Country;
 import io.mtech.ecommerce.entity.Product;
@@ -24,7 +24,10 @@ import io.mtech.ecommerce.entity.State;
 
 @Configuration
 @EnableWebMvc
-public class MyDataRestConfig implements RepositoryRestConfigurer, WebMvcConfigurer {
+public class MyDataRestConfig implements RepositoryRestConfigurer {
+
+	@Value("${allowed.origins}")
+	private String[] theAllowedOrigins;
 
 	private EntityManager entityManager;
 
@@ -34,8 +37,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer, WebMvcConfigu
 	}
 
 	@Override
-	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		HttpMethod[] theUnsupportedActions = { HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE };
+	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+		HttpMethod[] theUnsupportedActions = { HttpMethod.PUT, HttpMethod.POST, 
+				                               HttpMethod.DELETE, HttpMethod.PATCH };
 		// Disable HTTP methods for product: PUT,POST and DELETE
 		disableHttpMethods(Product.class, config, theUnsupportedActions);
 		disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
@@ -44,6 +48,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer, WebMvcConfigu
 
 		// call the internal helper method
 		exposeIds(config);
+
+		// configure Cors mapping
+		cors.addMapping("/api/**").allowedOrigins(theAllowedOrigins);
 	}
 
 	private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config,
@@ -82,8 +89,4 @@ public class MyDataRestConfig implements RepositoryRestConfigurer, WebMvcConfigu
 	 * }
 	 */
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*");
-	}
 }
