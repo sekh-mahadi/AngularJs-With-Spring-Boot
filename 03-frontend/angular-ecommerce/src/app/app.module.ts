@@ -30,6 +30,8 @@ import {
 import myAppConfig from './config/my-app-config';
 import { inject } from '@angular/core/testing';
 import { MemberPageComponent } from './components/member-page/member-page.component';
+import { OrderHostoryComponent } from './components/order-hostory/order-hostory.component';
+import { OrderHistory } from './common/order-history';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -44,8 +46,9 @@ const oktaConfig = Object.assign({
 
 const routes: Routes = [
   {path:'members', component: MemberPageComponent, canActivate: [OktaAuthGuard]},
-  { path: 'login/callback', component: OktaCallbackComponent},
-  {path:'login', component: LoginComponent},
+  {path:'order-history', component: OrderHostoryComponent, canActivate: [OktaAuthGuard]},
+  { path: 'login/callback', component: OktaCallbackComponent },
+  { path: 'login', component: LoginComponent },
 
   {path: 'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailsComponent},
@@ -70,7 +73,8 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
-    MemberPageComponent
+    MemberPageComponent,
+    OrderHostoryComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
